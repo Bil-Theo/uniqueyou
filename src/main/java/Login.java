@@ -7,11 +7,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import utilitaires.Compte;
 
 /**
  * Servlet implementation class Login
@@ -46,18 +50,41 @@ public class Login extends HttpServlet {
 			PreparedStatement stmt  =  conn.prepareStatement(query);
 			stmt.setString(1, username);
 			stmt.setString(2, username);
-			stmt.setString(3, username);
+			stmt.setString(3, password);
 			
 			ResultSet result = stmt.executeQuery();
 			if(result.next()) {
+				Compte compte = new Compte(result.getInt("_id"), result.getString("nom"), result.getString("telephone"), result.getString("email"), result.getString("mdps"), result.getInt("codePostal"), result.getString("ville"), result.getString("pays"), result.getInt("type"));
 				
+				HttpSession session = request.getSession();
+				session.setAttribute("compte", compte);
+				
+				if(compte.type==1) {
+					response.sendRedirect("Client_Vendeur/acceuil.jsp");
+				}
+				else if(compte.type==2) {
+					response.sendRedirect("Client/acceuil.jsp");
+				}
+				else {
+					response.sendRedirect("Entreprise/acceuil.jsp");
+				}
 			}
-			else {}
+			else {
+				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+				request.setAttribute("message", "Télephone ou email ou mot de passe incorrect.");
+				rd.forward(request, response);
+			}
 		}catch(SQLException e) {
 			e.printStackTrace();
+			RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
+			request.setAttribute("message", "Erreur liée à la base de données");
+			rd.forward(request, response);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
+			request.setAttribute("message", "Erreur interne. Veuillez contacter le technicien");
+			rd.forward(request, response);
 		}
 		
 	}

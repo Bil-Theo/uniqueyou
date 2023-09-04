@@ -1,1 +1,0 @@
-<link rel='icon' href='./assets/images/systeme/logo.JPG'/>
