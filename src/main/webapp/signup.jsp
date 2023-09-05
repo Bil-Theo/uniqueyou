@@ -74,31 +74,35 @@
 	<div class='form-block' style='marigin-bottom: 10%;'>
 		<form action='j_security_sign' method='POST' class='form-login'>
 			<div class='form-group-sign' style='margin-top: 2%'>
-				<label class='label-m'>Nom du compte <span style='color: red'>*</span></label>
-				<input name='j_username' type='text' class='entrer-sign' required>
+				<label class='label-m' style='font-weight: bold; font-size: 100%;'>Nom du compte <span style='color: red'>*</span></label>
+				<input name='j_username' type='text' class='entrer-sign' required placeholder='ex: Guedila'>
 			</div>
 			<div class='form-group-sign'>
-				<label class='label-m'>Téléphone <span style='color: red'>*</span></label>
-				<input name='j_tel' type='numeric' class='entrer-sign' required>
+				<label class='label-m' style='font-weight: bold; font-size: 100%;'>Créer un mot de passe <span style='color: red'>*</span></label>
+				<input name='j_mdps' type='password' class='entrer-sign' required>
 			</div>
 			<div class='form-group-sign'>
-				<label class='label-m'>Adresse email <span style='color: red'>*</span></label>
-				<input name='j_email' type='email' class='entrer-sign' required>
+				<label class='label-m' style='font-weight: bold; font-size: 100%;'>Téléphone <span style='color: red'>*</span></label>
+				<input name='j_tel' type='numeric' class='entrer-sign' required required placeholder='ex: 00213779063957'>
 			</div>
 			<div class='form-group-sign'>
-				<label class='label-m'> Votre localisation <span style='color: red'>*</span></label>
+				<label class='label-m' style='font-weight: bold; font-size: 100%;'>Adresse email <span style='color: red'>*</span></label>
+				<input name='j_email' type='email' class='entrer-sign' required required placeholder='ex: guedila@example.com'>
+			</div>
+			<div class='form-group-sign'>
+				<label class='label-m' style='font-weight: bold; font-size: 100%;'> Votre localisation <span style='color: red'>*</span></label>
 				<div class='localisation'>
 					<div class='local'>
-						<label class='label-m'>Code postal</label>
-						<input type='numeric' name='j_postal' class='entrer-local'>
+						<label class='label-m' style='margin-right: 2%'>Postal</label>
+						<input type='numeric' name='j_postal' class='entrer-local' required placeholder='ex: 35000'>
 					</div>
 					<div class='local'>
 						<label class='label-m'>Ville</label>
-						<input type='text' name='j_postal' class='entrer-local'>
+						<input type='text' name='j_ville' class='entrer-local' required placeholder='ex: Boumerdes'>
 					</div>
 					<div class='local'>
 						<label class='label-m'>Pays</label>
-						<select name="pays" id="pays" class='entrer-local'>
+						<select name="j_pays" id="pays" class='entrer-local' style='color: #8B8B8B'>
 							<option disabled selected >Selectionnez votre pays</option>
 							<%for(String pays: Afrique){ %>
 				               <option value="<%= pays%>"><%= pays%></option>
@@ -108,7 +112,18 @@
 					</div>
 				</div>
 			</div>
-			<button type="submit" class="mbtn" style='position: relative; left: 0;'>
+			<div class='form-group-sign' style='margin-top: 10%'>
+				<label class='label-m' style='font-weight: bold; font-size: 100%;'>Type de compte</label>
+				<div style='margin-left: 6%'>
+					<input name='j_type' type='radio' class='entrer-sign' value='1' checked>
+					<label class='label-m'>Client</label>
+					<input name='j_type' type='radio' class='entrer-sign' value='2'>
+					<label class='label-m'>Client vendeur</label>
+					<input name='j_type' type='radio' class='entrer-sign' value='3'>
+					<label class='label-m'>Entreprise</label>
+				</div>
+			</div>
+			<button type="submit" class="mbtn" style='margin-left: 25%;'>
 				S'inscrire 
 				<svg xmlns="http://www.w3.org/2000/svg" height="1.5em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
 			</button>

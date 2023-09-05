@@ -18,62 +18,56 @@ import javax.servlet.http.HttpSession;
 import utilitaires.Compte;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class Signup
  */
-@WebServlet("/j_security_access")
-public class Login extends HttpServlet {
+@WebServlet("/j_security_sign")
+public class Signup extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String url = "jdbc:mysql://localhost:3306/uniqueyou";
 	private static final String user_name = "root";
 	private static final String mdps =  "root";
-	private static final String query =  "SELECT * FROM compte WHERE (email = ? OR telephone = ?) AND mdps = ?";
+	private static final String query =  "INSERT INTO compte VALUES(null, ?, ?, ?, ?, ?, ?, ?, ?)";
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public Signup() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String username = request.getParameter("j_username");
-		String password = request.getParameter("j_password");
 		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(url, user_name, mdps);
 			PreparedStatement stmt  =  conn.prepareStatement(query);
-			stmt.setString(1, username);
-			stmt.setString(2, username);
-			stmt.setString(3, password);
+			stmt.setString(1, request.getParameter("j_username"));
+			stmt.setString(2, request.getParameter("j_tel"));
+			stmt.setString(3, request.getParameter("j_email"));
+			stmt.setInt(4, Integer.parseInt(request.getParameter("j_postal")));
+			stmt.setString(5, request.getParameter("j_ville"));
+			stmt.setString(6, request.getParameter("j_pays"));
+			stmt.setInt(7, Integer.parseInt(request.getParameter("j_type")));
+			stmt.setInt(8, Integer.parseInt(request.getParameter("j_mdps")));
 			
-			ResultSet result = stmt.executeQuery();
-			if(result.next()) {
-				Compte compte = new Compte(result.getInt("_id"), result.getString("nom"), result.getString("telephone"), result.getString("email"), result.getString("mdps"), result.getInt("codePostal"), result.getString("ville"), result.getString("pays"), result.getInt("type"));
-				
-				HttpSession session = request.getSession();
-				session.setAttribute("compte", compte);
-				
-				if(compte.type==1) {
-					response.sendRedirect("Client_Vendeur/acceuil.jsp");
-				}
-				else if(compte.type==2) {
-					response.sendRedirect("Client/acceuil.jsp");
-				}
-				else {
-					response.sendRedirect("Entreprise/acceuil.jsp");
-				}
-			}
-			else {
+			int res = stmt.executeUpdate();
+			
+			if(res>=0) {
 				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-				request.setAttribute("message", "Télephone ou email ou mot de passe incorrect.");
+				request.setAttribute("succes", "Votre compte a été créé avec succes. Vous pouvez desormais naviguer dans notre plateforme.");
 				rd.forward(request, response);
 			}
+			else {
+				RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
+				request.setAttribute("pagne", "Une erreur est survenue lors de la création de votre compte. Cliquer sur ");
+				rd.forward(request, response);
+			}
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 			RequestDispatcher rd = request.getRequestDispatcher("error.jsp");
@@ -86,7 +80,6 @@ public class Login extends HttpServlet {
 			request.setAttribute("message", "Erreur interne. Veuillez contacter le technicien");
 			rd.forward(request, response);
 		}
-		
-	}
 
+}
 }

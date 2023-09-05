@@ -15,5 +15,11 @@
 	%>
 	<p style='font-size: 200%; font-weight: bold; margin: 50%'><%= message%></p>
 	<%} %>
+	<%
+		String pagne = (String) request.getAttribute("pagne");
+		if(pagne!=null){
+	%>
+	<p style='font-size: 200%; font-weight: bold; margin: 50%'><%= pagne%>  <a href='../signup.jsp'>s'incrire à nouveau.</a></p>
+	<%} %>
 </body>
 </html>

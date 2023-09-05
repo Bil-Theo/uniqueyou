@@ -15,8 +15,12 @@
 		if(message!=null){
 	%>
 	<span class="alert alert-danger" style='margin-left: 40%; margin-top: 5%; margin-bottom: 5%;'><%= message%></span> <%} %>
+	<% String succes = (String) request.getAttribute("succes");
+		if(succes!=null){
+	%>
+	<span class="alert alert-success" style='margin-left: 30%; margin-top: 8%; margin-bottom: 15%;'><%= succes%></span> <%} %>
 	<div class='form-block'>
-		<form action='j_security_access' method='POST' class='form-login'>
+		<form action='j_security_access' method='POST' class='form-login' style='margin-bottom: 2%;'>
 			<div class='form-group' style='margin-top: 2%'>
 				<label>Email ou Téléphone</label>
 				<input name='j_username' type='text' class='entrer' required>
