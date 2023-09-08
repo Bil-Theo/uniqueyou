@@ -58,8 +58,9 @@ public class Login extends HttpServlet {
 				
 				HttpSession session = request.getSession();
 				session.setAttribute("compte", compte);
+				response.sendRedirect("add_item.jsp");
 				
-				if(compte.type==1) {
+				/*if(compte.type==1) {
 					response.sendRedirect("Client_Vendeur/acceuil.jsp");
 				}
 				else if(compte.type==2) {
@@ -67,7 +68,7 @@ public class Login extends HttpServlet {
 				}
 				else {
 					response.sendRedirect("Entreprise/acceuil.jsp");
-				}
+				}*/
 			}
 			else {
 				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");

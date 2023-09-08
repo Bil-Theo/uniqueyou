@@ -59,7 +59,7 @@ public class Signup extends HttpServlet {
 			
 			if(res>=0) {
 				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-				request.setAttribute("succes", "Votre compte a été créé avec succes. Vous pouvez desormais naviguer dans notre plateforme.");
+				request.setAttribute("succes", "Votre compte a été créé avec succes. Vous pouvez desormais naviguer sur notre plateforme.");
 				rd.forward(request, response);
 			}
 			else {

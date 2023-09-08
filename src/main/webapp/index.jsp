@@ -14,7 +14,7 @@
 	<% String message = (String) request.getAttribute("message");
 		if(message!=null){
 	%>
-	<span class="alert alert-danger" style='margin-left: 40%; margin-top: 5%; margin-bottom: 5%;'><%= message%></span> <%} %>
+	<span class="alert alert-danger" style='margin-left: 36%; margin-top: 5%; margin-bottom: 5%;'><%= message%></span> <%} %>
 	<% String succes = (String) request.getAttribute("succes");
 		if(succes!=null){
 	%>

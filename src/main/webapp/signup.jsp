@@ -83,7 +83,7 @@
 			</div>
 			<div class='form-group-sign'>
 				<label class='label-m' style='font-weight: bold; font-size: 100%;'>Téléphone <span style='color: red'>*</span></label>
-				<input name='j_tel' type='numeric' class='entrer-sign' required required placeholder='ex: 00213779063957'>
+				<input name='j_tel' type='text' class='entrer-sign' required required placeholder='ex: 00213779063957'>
 			</div>
 			<div class='form-group-sign'>
 				<label class='label-m' style='font-weight: bold; font-size: 100%;'>Adresse email <span style='color: red'>*</span></label>
@@ -94,7 +94,7 @@
 				<div class='localisation'>
 					<div class='local'>
 						<label class='label-m' style='margin-right: 2%'>Postal</label>
-						<input type='numeric' name='j_postal' class='entrer-local' required placeholder='ex: 35000'>
+						<input type='number' name='j_postal' class='entrer-local' required placeholder='ex: 35000'>
 					</div>
 					<div class='local'>
 						<label class='label-m'>Ville</label>
