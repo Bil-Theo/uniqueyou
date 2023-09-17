@@ -8,7 +8,7 @@
 	<title>Error</title>
 </head>
 <body>
-	<jsp:include page="header.jsp">
+	<jsp:include page="./header.jsp">
 	<%
 		String message = (String) request.getAttribute("error");
 		if(message!=null){

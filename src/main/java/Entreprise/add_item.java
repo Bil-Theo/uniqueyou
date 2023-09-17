@@ -65,7 +65,11 @@ public class add_item extends HttpServlet {
 	        String[] img = fileName.split("\\.");
 	        fileName = img[0]+"_"+Long.toString(tms)+"."+img[1];
 	        
-	        String savePath = "C:\\Users\\TRETEC\\Desktop\\database\\" + fileName;
+	        String uploadFolder = "D:/c/JEE/eclipse/work-space/uniqueyou/src/main/webapp/assets/images/database";
+	        String savePath = uploadFolder + File.separator + fileName;
+	        
+	        System.out.print(savePath);
+
 	        
 
 	        //Écrivez le fichier sur le disque
@@ -88,7 +92,7 @@ public class add_item extends HttpServlet {
 			stmt.setInt(2, Integer.parseInt(request.getParameter("j_prix")));
 			stmt.setInt(3, Integer.parseInt(request.getParameter("j_prix_promo")));
 			stmt.setInt(4, Integer.parseInt(request.getParameter("j_promo")));
-			stmt.setString(5, savePath);
+			stmt.setString(5, "./assets/images/database/"+fileName);
 			stmt.setString(6, request.getParameter("j_description"));
 			stmt.setInt(7, user._id);
 			stmt.setInt(8, user.type);
@@ -98,8 +102,8 @@ public class add_item extends HttpServlet {
 			int res = stmt.executeUpdate();
 			
 			if(res>=0) {
-				RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-				request.setAttribute("succes", "Ajout de l'article reussi avec succes.");
+				RequestDispatcher rd = request.getRequestDispatcher("boutique.jsp");
+				request.setAttribute("succes", "Ajout de l'article "+request.getParameter("j_libelle")+"  reussi avec succes.");
 				rd.forward(request, response);
 			}
 			else {

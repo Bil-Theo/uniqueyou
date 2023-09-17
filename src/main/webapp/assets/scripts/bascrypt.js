@@ -13,3 +13,12 @@ var oui = document.getElementById('oui');
 	// Ajoutez un gestionnaire d'événements pour surveiller les changements dans les boutons radio
 	oui.addEventListener('change', myfunc);
 	non.addEventListener('change', myfunc);
+	
+document.addEventListener("DOMContentLoaded", function () {
+            var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+                backdrop: 'static',
+                keyboard: false
+            });
+
+            myModal.show();
+        });

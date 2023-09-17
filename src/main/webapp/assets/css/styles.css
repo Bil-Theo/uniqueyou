@@ -71,6 +71,26 @@ label{
 	padding: 8%;
 }
 
+.option{
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin-left: 10%;
+}
+
+.lien{
+	text-decoration: none;
+	font-size: 120%;
+	margin-right: 30%;
+	color: black;
+	font-weight: bold;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
 
 
 .entrer-local{
@@ -114,6 +134,12 @@ label{
 
 .form-login{
 	margin-bottom: 10%;
+}
+
+.action{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .mbtn{
