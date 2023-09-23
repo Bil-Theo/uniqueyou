@@ -17,20 +17,20 @@ import javax.servlet.http.HttpSession;
 import utilitaires.Compte;
 
 /**
- * Servlet implementation class delete_item
+ * Servlet implementation class Supprm
  */
-@WebServlet("/j_boma_eloko")
-public class delete_item extends HttpServlet {
+@WebServlet("/vider_panier")
+public class Supprm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String url = "jdbc:mysql://localhost:3306/uniqueyou";
 	private static final String user_name = "root";
 	private static final String mdps =  "root";
-	private static final String query =  "DELETE FROM item WHERE _id = ? AND id_user = ?";
+	private static final String query =  "DELETE FROM panier WHERE _id = ? AND id_user = ?";
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public delete_item() {
+    public Supprm() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,7 +38,7 @@ public class delete_item extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession s = request.getSession(false);
 		Compte user = (Compte) s.getAttribute("compte");
@@ -61,7 +61,7 @@ public class delete_item extends HttpServlet {
 				
 				int res = stmt.executeUpdate();
 				if(res>=0) {
-					RequestDispatcher rd = request.getRequestDispatcher("boutique.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("panier.jsp");
 					request.setAttribute("succes", "Suppression reussie avec succes.");
 					rd.forward(request, response);
 				}
@@ -76,9 +76,6 @@ public class delete_item extends HttpServlet {
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	
 
 }

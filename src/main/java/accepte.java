@@ -17,20 +17,24 @@ import javax.servlet.http.HttpSession;
 import utilitaires.Compte;
 
 /**
- * Servlet implementation class delete_item
+ * Servlet implementation class valide
  */
-@WebServlet("/j_boma_eloko")
-public class delete_item extends HttpServlet {
+@WebServlet("/valide")
+public class accepte extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String url = "jdbc:mysql://localhost:3306/uniqueyou";
 	private static final String user_name = "root";
 	private static final String mdps =  "root";
-	private static final String query =  "DELETE FROM item WHERE _id = ? AND id_user = ?";
+	private static final String query =  "DELETE P\r\n"
+			+ "FROM panier AS P\r\n"
+			+ "INNER JOIN item AS I ON I._id = P.id_item\r\n"
+			+ "WHERE I.id_user = ? AND P._id = ?;\r\n"
+			+ " ";
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public delete_item() {
+    public accepte() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -56,12 +60,55 @@ public class delete_item extends HttpServlet {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection conn = DriverManager.getConnection(url, user_name, mdps);
 				PreparedStatement stmt  =  conn.prepareStatement(query);
-				stmt.setInt(1, _id);
-				stmt.setInt(2, user._id);
+				stmt.setInt(1, user._id);
+				stmt.setInt(2, _id);
 				
 				int res = stmt.executeUpdate();
 				if(res>=0) {
-					RequestDispatcher rd = request.getRequestDispatcher("boutique.jsp");
+					RequestDispatcher rd = request.getRequestDispatcher("tableaubord.jsp");
+					request.setAttribute("succes", "Suppression reussie avec succes.");
+					rd.forward(request, response);
+				}
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub	HttpSession s = request.getSession(false);
+		HttpSession s = request.getSession(false);
+		Compte user = (Compte) s.getAttribute("compte");
+		
+		if(user == null) {
+			RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+			request.setAttribute("message", "Vous devenez vous identifiez d'abord avant de faire cette opération");
+			rd.forward(request, response);
+		}
+		else {
+			
+			String sql= "DELETE P\r\n"
+					+ "FROM panier AS P\r\n"
+					+ "INNER JOIN item AS I ON I._id = P.id_item\r\n"
+					+ "WHERE I.id_user = ? ;\r\n"
+					+ " ";
+			
+			try {
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				Connection conn = DriverManager.getConnection(url, user_name, mdps);
+				PreparedStatement stmt  =  conn.prepareStatement(sql);
+				stmt.setInt(1, user._id);
+				
+				int res = stmt.executeUpdate();
+				if(res>=0) {
+					RequestDispatcher rd = request.getRequestDispatcher("tableaubord.jsp");
 					request.setAttribute("succes", "Suppression reussie avec succes.");
 					rd.forward(request, response);
 				}
@@ -75,10 +122,5 @@ public class delete_item extends HttpServlet {
 		}
 		
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	
 
 }
