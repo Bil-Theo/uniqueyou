@@ -83,7 +83,7 @@
 		 String url = "jdbc:mysql://localhost:3306/uniqueyou";
 		 String user_name = "root";
 		 String mdps =  "root";
-		 String query = "SELECT P._id as _id, I._id as id_item, P.id_user, I.libelle, I.prix, I.prix_promo, I.promotion, P.id_user FROM panier P, item I WHERE P.id_item = I._id AND P.id_user = ?";
+		 String query = "SELECT I.image, P._id as _id, I._id as id_item, P.id_user, I.libelle, I.prix, I.prix_promo, I.promotion, P.id_user FROM panier P, item I WHERE P.id_item = I._id AND P.id_user = ?";
 
 		int i = 0, count = 0;
 		 
@@ -102,7 +102,7 @@
 		%>
 		
 		<div class="panel">
-			<img src="./assets/images/database/photo.jpg" class="custom-card">
+			<img src="<%= result.getString("I.image") %>" class="custom-card">
 			<p style="font-size: 130%; margin: 30%; margin-left: 80%;"><%= result.getString("I.libelle") %></p>
 			<p style="margin: 40%;  margin-left: 80%;"><%= prix %>$</p>
 			<a href="vider_panier?id_current=<%=result.getString("_id") %>" style="margin: 30%;  margin-left: 80%;">

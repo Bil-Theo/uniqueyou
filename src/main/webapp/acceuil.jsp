@@ -132,7 +132,7 @@
 					 result.next();%>
 		            <div class="col-md-4">
 		                <div class="card custom-card">
-		                    <img src="./assets/images/database/photo.jpg" class="card-img-top" alt="Image 1">
+		                    <img src="<%= result.getString("image") %>" class="card-img-top" alt="Image 1">
 		                      <% if(!result.getBoolean("promotion")){ %>
 		                    <div class="card-body">
 		                        <h5 class="card-title"><%= result.getString("libelle") %></h5>
