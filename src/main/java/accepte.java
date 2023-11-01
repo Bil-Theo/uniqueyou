@@ -25,7 +25,7 @@ public class accepte extends HttpServlet {
 	private static final String url = "jdbc:mysql://localhost:3306/uniqueyou";
 	private static final String user_name = "root";
 	private static final String mdps =  "root";
-	private static final String query =  "DELETE P\r\n"
+	private  String query =  "DELETE P\r\n"
 			+ "FROM panier AS P\r\n"
 			+ "INNER JOIN item AS I ON I._id = P.id_item\r\n"
 			+ "WHERE I.id_user = ? AND P._id = ?;\r\n"
@@ -53,15 +53,28 @@ public class accepte extends HttpServlet {
 			rd.forward(request, response);
 		}
 		else {
+			int _id = 0;
 			
-			int _id = Integer.parseInt(request.getParameter("id_current"));
+			if(request.getParameter("id_current")!=null) {
+				_id = Integer.parseInt(request.getParameter("id_current"));
+
+			}
+			else {
+				query =  "DELETE P\r\n"
+						+ "FROM panier AS P\r\n"
+						+ "INNER JOIN item AS I ON I._id = P.id_item\r\n"
+						+ "WHERE I.id_user = ? AND ? = 0;\r\n"
+						+ " ";
+			}
 			
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection conn = DriverManager.getConnection(url, user_name, mdps);
 				PreparedStatement stmt  =  conn.prepareStatement(query);
+				
 				stmt.setInt(1, user._id);
 				stmt.setInt(2, _id);
+				
 				
 				int res = stmt.executeUpdate();
 				if(res>=0) {

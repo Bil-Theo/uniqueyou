@@ -31,7 +31,7 @@
 			<h1 class='titre' style='font-size: 250%; margin-left: -5%;'>Unique you</h1>
 			<img src='./assets/images/systeme/logo.JPG' class='logo' alt='logo'/>
 			<h3 class='theme' style='font-size: 170%; margin-left: 20%'>Tableau de bord</h3>
-			<h3 h3 class='theme' style='font-size: 80%; color: black;  margin-left: 30%;'><a style='text-decoration: none; color: black' href="javascript:history.back()">Retour <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></a></h3>
+			<h3 h3 class='theme' style='font-size: 80%; color: black;  margin-left: 30%;'><a style='text-decoration: none; color: black' href="boutique.jsp"><svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000040}</style><path d="M177.5 414c-8.8 3.8-19 2-26-4.6l-144-136C2.7 268.9 0 262.6 0 256s2.7-12.9 7.5-17.4l144-136c7-6.6 17.2-8.4 26-4.6s14.5 12.5 14.5 22l0 72 288 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32l-288 0 0 72c0 9.6-5.7 18.2-14.5 22z"/></svg></a></h3>
 		</nav>
 	</header>
 	
@@ -43,6 +43,7 @@
             <tr>
             	 <th scope="col">Client</th>
                 <th scope="col">Libellé</th>
+                <th scope="col">Quantité</th>
                 <th scope="col">Téléphone</th>
                 <th scope="col">Pays</th>
                 <th scope="col">Adresse</th>
@@ -55,7 +56,7 @@
 	         String url = "jdbc:mysql://localhost:3306/uniqueyou";
 			 String user_name = "root";
 			 String mdps =  "root";
-			 String query = "SELECT U.nom, I.libelle, P._id, F.adresse, F.pays, F.ville, F.telephone FROM Panier P, Compte U, item I, formulaire F WHERE P.id_user = U._id AND P.id_item = I._id AND F.id_user = P.id_user AND I.id_user = ? ";
+			 String query = "SELECT U.nom, I.libelle, P._id, F.adresse, F.pays, F.ville, F.telephone, count(*) as qte FROM Panier P, Compte U, item I, formulaire F WHERE P.id_user = U._id AND P.id_item = I._id AND F.id_user = P.id_user AND I.id_user = ? group by P.id_item, P.id_user ";
 	
 			 int i = 0, count = 0;
 			 
@@ -73,6 +74,7 @@
             <tr>
             	<td><%= result.getString("U.nom") %></td>
                 <td><%= result.getString("I.libelle") %></td>
+                <td><%= result.getString("qte") %></td>
                 <td><%= result.getString("F.telephone") %></td>
                 <td><%= result.getString("F.pays") %></td>
                 <td><%= result.getString("F.adresse")+"  "+result.getString("F.ville") %> </td>

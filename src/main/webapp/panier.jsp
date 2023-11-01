@@ -27,10 +27,12 @@
     <style>
         /* Personnalisation du style pour les blocs */
         .custom-card {
-            width: 100%;
-            max-width: 100%; /* Réduire la largeur des blocs */
+            width: 50px;
+            max-width: 50px%; /* Réduire la largeur des blocs */
             margin: 1%; /* Augmenter l'espacement entre les blocs */
         	background-color: #F6F6F6;
+        	position: relative;
+        	left: 10%;
         }
         .card-title{
         	display: flex;
@@ -77,13 +79,26 @@
 		</nav>
 	</header>
 	
-	<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 3%;"><%
+	    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Libellé</th>
+                    <th>Quantité</th>
+                    <th>Prix Unitaire</th>
+                    <th>Prix Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>		
+            <tbody>
+                <%
 		
 
 		 String url = "jdbc:mysql://localhost:3306/uniqueyou";
 		 String user_name = "root";
 		 String mdps =  "root";
-		 String query = "SELECT I.image, P._id as _id, I._id as id_item, P.id_user, I.libelle, I.prix, I.prix_promo, I.promotion, P.id_user FROM panier P, item I WHERE P.id_item = I._id AND P.id_user = ?";
+		 String    query = "SELECT I.image, P._id as _id, I._id as id_item, P.id_user, I.libelle, I.prix, I.prix_promo, I.promotion, P.id_user, COUNT(*) as qte FROM panier P INNER JOIN item I ON P.id_item = I._id WHERE P.id_user = ? GROUP BY P.id_user, I._id";
 
 		int i = 0, count = 0;
 		 
@@ -96,23 +111,32 @@
 				ResultSet result = stmt.executeQuery();
 				
 				while(result.next()){
-					float prix = (result.getInt("promotion")==1)? result.getFloat("prix_promo"):result.getFloat("prix");
-					count += prix;
-		
-		%>
-		
-		<div class="panel">
-			<img src="<%= result.getString("I.image") %>" class="custom-card">
-			<p style="font-size: 130%; margin: 30%; margin-left: 80%;"><%= result.getString("I.libelle") %></p>
-			<p style="margin: 40%;  margin-left: 80%;"><%= prix %>$</p>
-			<a href="vider_panier?id_current=<%=result.getString("_id") %>" style="margin: 30%;  margin-left: 80%;">
-				<svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ff2115}</style><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
-			</a>
-		</div>
+					float prix, prix_t;
+					prix = (result.getInt("promotion")==1)? result.getFloat("prix_promo"):result.getFloat("prix");
+					prix_t = prix * Integer.parseInt(result.getString("qte"));
+					count += prix_t;
 			
-		<%
-				i++;}
-				if(i!=0){
+		%>
+                <tr>
+                    <td><img src="<%= result.getString("I.image") %>" alt="Image 1" width="50" height="50"></td>
+                    <td><%= result.getString("I.libelle") %></td>
+                    <td><%= result.getString("qte") %></td>
+                    <td><%= prix %>$</td>
+                    <td><%= prix_t %>$</td>
+                    <td>
+                       <a href="vider_panier?id_current=<%=result.getString("_id") %>" style="margin: 30%;  margin-left: 80%;">
+							<svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill: black}</style><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+					   </a> 
+                    </td>
+                </tr>
+         <%
+				i++;}%>
+            </tbody>
+        </table>
+        
+        
+    </div>
+				<%if(i!=0){
 				%>
 				
 				<div style="display: flex; flex-direction: row; justify-content: center;">
@@ -120,10 +144,17 @@
 					<p style="margin-left: 0%">Prix total: </p> <p style="margin-left: 2%; font-weight: bold; "><%= count %>$</p>
 				</div>
 				
-				<a href="formulaire.jsp"  class="btn btn-primary" style="color: white; font-weight: bold; background-color: #08D140; border-color: #08D140;">Commander</a>
+				<a href="formulaire.jsp"  class="btn btn-primary" style="color: white; font-weight: bold; background-color: #08D140; border-color: #08D140; margin-left: 45%; margin-top: 3%">Commander</a>
 		
-	<%
+			<%
 				}
+				else{
+					%>
+					<div style="display: flex; flex-direction: row; justify-content: center;">
+						<p style="margin-left: 0%; margin-top: 50%; font-size: 30px; color: gray;">Panier vide<p>
+					</div>
+					
+				<% }
 				
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -141,7 +172,6 @@
 		
 		
 		
-	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 	<script>
 	document.addEventListener("DOMContentLoaded", function () {

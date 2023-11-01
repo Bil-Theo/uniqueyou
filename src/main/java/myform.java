@@ -74,6 +74,7 @@ public class myform extends HttpServlet {
 				stmt.setInt(6, user._id);
 				
 				int res = stmt.executeUpdate();
+				System.out.print("ca marche");
 				if(res>=0) {
 					RequestDispatcher rd = request.getRequestDispatcher("acceuil.jsp");
 					request.setAttribute("succes", "Votre panier a été valider avec succes.");
@@ -81,6 +82,7 @@ public class myform extends HttpServlet {
 					PreparedStatement st  =  conn.prepareStatement("DELETE FROM panier WHERE id_user = ?");
 					
 					st.setInt(1, user._id);
+					//st.executeUpdate();
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block

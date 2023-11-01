@@ -31,7 +31,7 @@
 			<h1 class='titre' style='font-size: 250%; margin-left: -5%;'>Unique you</h1>
 			<img src='./assets/images/systeme/logo.JPG' class='logo' alt='logo'/>
 			<h3 class='theme' style='font-size: 170%; margin-left: 20%'>Détails produit</h3>
-			<h3 h3 class='theme' style='font-size: 80%; color: black;  margin-left: 30%;'><a style='text-decoration: none; color: black' href="javascript:history.back()">Retour <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg></a></h3>
+			<h3 h3 class='theme' style='font-size: 80%; color: black;  margin-left: 30%;'><a style='text-decoration: none; color: black' href="javascript:history.back()"><svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000040}</style><path d="M177.5 414c-8.8 3.8-19 2-26-4.6l-144-136C2.7 268.9 0 262.6 0 256s2.7-12.9 7.5-17.4l144-136c7-6.6 17.2-8.4 26-4.6s14.5 12.5 14.5 22l0 72 288 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32l-288 0 0 72c0 9.6-5.7 18.2-14.5 22z"/></svg></a></h3>
 		</nav>
 	</header>
 	
@@ -62,7 +62,7 @@
 	<div class='form-block' style='margin-top: 1%;'>
 		<div class="container mt-5" style="display: flex; flex-direction: row; justify-content: center; margin-bottom: 5%;">
        	 	<div class="card" style="width: 18rem; background-color: #F6F6F6;" >
-            	<img src="./assets/images/database/photo.jpg" class="card-img-top" alt="Image du produit">
+            	<img src="<%= rs.getString("image") %>" class="card-img-top" alt="Image du produit">
             	<% if(!rs.getBoolean("promotion")){ %>
             	<div class="card-body">
 	                <h5 class="card-title" style="display: flex; flex-direction: row; justify-content: center"><%= rs.getString("libelle") %></h5>

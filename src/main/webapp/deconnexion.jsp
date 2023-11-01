@@ -11,7 +11,7 @@
 	else{
 		
 		s.invalidate();
-		rd.forward(request, response);
+		response.sendRedirect("index.jsp");
 		
 	}
 	
