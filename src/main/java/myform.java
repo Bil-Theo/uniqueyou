@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
@@ -74,15 +75,28 @@ public class myform extends HttpServlet {
 				stmt.setInt(6, user._id);
 				
 				int res = stmt.executeUpdate();
-				System.out.print("ca marche");
 				if(res>=0) {
 					RequestDispatcher rd = request.getRequestDispatcher("acceuil.jsp");
 					request.setAttribute("succes", "Votre panier a été valider avec succes.");
 					rd.forward(request, response);
-					PreparedStatement st  =  conn.prepareStatement("DELETE FROM panier WHERE id_user = ?");
+					PreparedStatement st  =  conn.prepareStatement("SELECT now() as dte, C2.nom as nom_v, C2.email as mail_v, C1.nom as nom_cl, C1.email as mail_cl FROM panier P, item i, Compte C1, compte C2 WHERE P.id_user = ? and P.id_item = I._id and I.id_user = C2._id and C2._id != C1._id group by C2._id; ");
 					
 					st.setInt(1, user._id);
-					//st.executeUpdate();
+					ResultSet r = st.executeQuery();
+					
+					while(r.next()) {
+						
+						System.out.println("Bonjour " + r.getString("mail_v") + ",\r\n"
+								+ "\r\n"
+								+ "Bonne nouvelle ! \r\n"
+								+ "\r\n"
+								+ "Une commande a été faite le " + r.getString("dte") + " par " + r.getString("mail_cl") +".\r\n"
+								+ "\r\n"
+								+ "Merci de confirmer les articles commandés. \r\n"
+								+ "\r\n"
+								+ "Cordialement,\r\n"
+								+ "L'équipe unique u");
+					}
 				}
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
