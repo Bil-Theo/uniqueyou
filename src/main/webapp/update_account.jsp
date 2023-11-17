@@ -131,7 +131,7 @@
 			</div>
 			<div class='form-group-sign'>
 				<label class='label-m' style='font-weight: bold; font-size: 100%;'>Adresse email <span style='color: red'>*</span></label>
-				<input value="<%= rs.getString("email") %>"  name='j_email' type='email' class='entrer-sign' required required placeholder='ex: guedila@example.com'>
+				<input pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" value="<%= rs.getString("email") %>"  name='j_email' type='email' class='entrer-sign' required required placeholder='ex: guedila@example.com'>
 			</div>
 			<div class='form-group-sign'>
 				<label class='label-m' style='font-weight: bold; font-size: 100%;'> Votre localisation <span style='color: red'>*</span></label>

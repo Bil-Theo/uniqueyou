@@ -59,7 +59,16 @@ public class modify extends HttpServlet {
 		else {
 			
 		  Part filePart = request.getPart("j_img");
-	      if(filePart == null) {
+		  // Obtenez le nom du fichier téléchargé
+	        String fileName = getFileName(filePart);
+
+	        // Chemin où vous souhaitez enregistrer le fichier
+	        long tms = System.currentTimeMillis();
+	        String[] img = fileName.split("\\.");
+	        
+	        
+	        
+	      if(img.length <= 1 ) {
 	    	   query =  "UPDATE item set libelle = ?, prix = ?, prix_promo = ?, promotion = ?,  description = ? WHERE id_user = ? AND _id = ?;";
 	    	   try {
 	   			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -101,18 +110,12 @@ public class modify extends HttpServlet {
 	   		}
 	      }
 	      else {
-	    	  // Obtenez le nom du fichier téléchargé
-		        String fileName = getFileName(filePart);
-
-		        // Chemin où vous souhaitez enregistrer le fichier
-		        long tms = System.currentTimeMillis();
-		        String[] img = fileName.split("\\.");
 		        fileName = img[0]+"_"+Long.toString(tms)+"."+img[1];
 		        
 		        String uploadFolder = "D:/c/JEE/eclipse/work-space/uniqueyou/src/main/webapp/assets/images/database";
 		        String savePath = uploadFolder + File.separator + fileName;
-		        
-		        System.out.print(savePath);
+		       query =  "UPDATE item set libelle = ?, prix = ?, prix_promo = ?, promotion = ?,  image = ?, description = ? WHERE id_user = ? AND _id = ?;";  
+		        //System.out.print(savePath);
 
 		        
 

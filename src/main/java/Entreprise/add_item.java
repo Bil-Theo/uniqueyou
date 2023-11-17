@@ -68,7 +68,7 @@ public class add_item extends HttpServlet {
 	        String uploadFolder = "D:/c/JEE/eclipse/work-space/uniqueyou/src/main/webapp/assets/images/database";
 	        String savePath = uploadFolder + File.separator + fileName;
 	        
-	        System.out.print(savePath);
+	        //System.out.print(savePath);
 
 	        
 

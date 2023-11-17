@@ -45,8 +45,8 @@ public class update extends HttpServlet {
 			Connection conn = DriverManager.getConnection(url, user_name, mdps);
 			PreparedStatement stmt  =  conn.prepareStatement(query);
 			stmt.setString(1, request.getParameter("j_username"));
-			stmt.setString(2, request.getParameter("j_tel"));
-			stmt.setString(3, request.getParameter("j_email"));
+			stmt.setString(2, request.getParameter("j_email"));
+			stmt.setString(3, request.getParameter("j_tel"));
 			stmt.setInt(4, Integer.parseInt(request.getParameter("j_mdps")));
 			stmt.setInt(5, Integer.parseInt(request.getParameter("j_postal")));
 			stmt.setString(6, request.getParameter("j_ville"));

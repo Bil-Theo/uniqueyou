@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import utilitaires.Compte;
+import utilitaires.EnvoyerEmail;
 
 /**
  * Servlet implementation class formulaire
@@ -61,7 +63,7 @@ public class myform extends HttpServlet {
 			String ville = request.getParameter("j_ville");
 			String pays = request.getParameter("j_pays");
 			String date = request.getParameter("j_date");
-			System.out.print(date);
+			//System.out.print(date);
 			
 			try {
 				Class.forName("com.mysql.cj.jdbc.Driver");
@@ -79,23 +81,50 @@ public class myform extends HttpServlet {
 					RequestDispatcher rd = request.getRequestDispatcher("acceuil.jsp");
 					request.setAttribute("succes", "Votre panier a été valider avec succes.");
 					rd.forward(request, response);
-					PreparedStatement st  =  conn.prepareStatement("SELECT now() as dte, C2.nom as nom_v, C2.email as mail_v, C1.nom as nom_cl, C1.email as mail_cl FROM panier P, item i, Compte C1, compte C2 WHERE P.id_user = ? and P.id_item = I._id and I.id_user = C2._id and C2._id != C1._id group by C2._id; ");
+					PreparedStatement st  =  conn.prepareStatement("SELECT DISTINCT  C2.email as mail_v, C2.nom as nom_v,now() as dte, C1.nom as nom_cl, C1.email as mail_cl FROM panier P, item i, Compte C1, compte C2 WHERE P.id_user = ? and P.id_item = I._id and I.id_user = C2._id and C2._id != C1._id group by C2._id; ");
+					PreparedStatement stm = conn.prepareStatement("SELECT distinct I._id, I.libelle, I.prix, I.promotion, I.prix_promo, I.id_user, I.type from panier P, item I where P.id_item = I._id AND P.id_user = ? ");
+					stm.setInt(1, user._id);
 					
+					ResultSet rr = stm.executeQuery();
+					
+					while(rr.next()) {
+						
+						PreparedStatement ss = conn.prepareStatement("INSERT INTO commande VALUES(null ,? , ?, ?, ?, ?, ?, ?, ?, ?)");
+
+						ss.setInt(1, Integer.parseInt(rr.getString("I._id")));
+						ss.setString(2, rr.getString("I.libelle"));
+						ss.setFloat(3, Float.parseFloat(rr.getString("I.prix")));
+						ss.setFloat(4, Float.parseFloat(rr.getString("I.prix_promo")));
+						ss.setInt(5, Integer.parseInt(rr.getString("I.promotion")));
+						ss.setString(6, "./assets/images/database/");
+						ss.setString(7, "");
+						ss.setInt(8, Integer.parseInt(rr.getString("I.id_user")));
+						ss.setInt(9, Integer.parseInt(rr.getString("I.type")));
+						
+						ss.executeUpdate();
+					}
 					st.setInt(1, user._id);
 					ResultSet r = st.executeQuery();
 					
 					while(r.next()) {
 						
-						System.out.println("Bonjour " + r.getString("mail_v") + ",\r\n"
+						String body = "Bonjour " + r.getString("nom_v") + ",\r\n"
 								+ "\r\n"
 								+ "Bonne nouvelle ! \r\n"
 								+ "\r\n"
-								+ "Une commande a été faite le " + r.getString("dte") + " par " + r.getString("mail_cl") +".\r\n"
+								+ "Une commande a été faite le " + r.getString("dte") + " par " + r.getString("nom_cl") +".\r\n"
 								+ "\r\n"
-								+ "Merci de confirmer les articles commandés. \r\n"
+								+ "Merci de confirmer ou réjeter les articles commandés. \r\n"
 								+ "\r\n"
 								+ "Cordialement,\r\n"
-								+ "L'équipe unique u");
+								+ "L'équipe unique u";
+						String subject = "NE PAS REPONDRE - COMMANDE RECU UNIQUEYOU";
+						//String received = r.getString("mail_v");
+						String received = "impressioninh@gmail.com";
+						
+						//
+						//System.out.println(body);	
+						EnvoyerEmail.envoyer(received, subject, body);
 					}
 				}
 			} catch (ClassNotFoundException e) {
@@ -110,3 +139,7 @@ public class myform extends HttpServlet {
 	}
 
 }
+
+
+
+

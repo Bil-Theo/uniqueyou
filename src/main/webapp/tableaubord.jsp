@@ -56,7 +56,7 @@
 	         String url = "jdbc:mysql://localhost:3306/uniqueyou";
 			 String user_name = "root";
 			 String mdps =  "root";
-			 String query = "SELECT U.nom, I.libelle, P._id, F.adresse, F.pays, F.ville, F.telephone, count(*) as qte FROM Panier P, Compte U, item I, formulaire F WHERE P.id_user = U._id AND P.id_item = I._id AND F.id_user = P.id_user AND I.id_user = ? group by P.id_item, P.id_user ";
+			 String query = "SELECT U.nom, I.libelle, I.id, P._id, F.adresse, F.pays, F.ville, F.telephone, count(*) as qte FROM Panier P, Compte U, commande I, formulaire F WHERE P.id_user = U._id AND P.id_item = I._id AND F.id_user = P.id_user AND I.id_user = ? group by P.id_item, P.id_user ";
 	
 			 int i = 0, count = 0;
 			 
@@ -80,10 +80,10 @@
                 <td><%= result.getString("F.adresse")+"  "+result.getString("F.ville") %> </td>
                 <td>
                 	<div class="row">
-                        <a href="valide?id_current=<%= result.getInt("P._id") %>" class="col">
+                        <a href="valide?id_current=<%= result.getInt("P._id") %>&&action=1" class="col">
                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
                         </a>
-                        <a href="valide?id_current=<%= result.getInt("P._id") %>" class="col">
+                        <a href="valide?id_current=<%= result.getInt("P._id") %>&&action=0" class="col">
                             <svg xmlns="http://www.w3.org/2000/svg" height="2em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#000000}</style><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
                         </a>
                     </div>
@@ -107,8 +107,8 @@
         </tbody>
     </table>
     <div style="display: flex; flex-direction: row; justify-content: center">
-    	<a href="valide" class="btn btn-success" style="color: white; font-weight: bold; background-color: #08D140; border-color: #08D140;">Tout valider</a>
-    	<a href="valide" class="btn btn-danger" style="margin-left: 20%;color: white; font-weight: bold; background-color: #FF0000; border-color: #FF0000;">Tout réfuser</a>
+    	<a href="valide?action=1" class="btn btn-success" style="color: white; font-weight: bold; background-color: #08D140; border-color: #08D140;">Tout valider</a>
+    	<a href="valide?action=0" class="btn btn-danger" style="margin-left: 20%;color: white; font-weight: bold; background-color: #FF0000; border-color: #FF0000;">Tout réfuser</a>
     </div>
 </div>
 

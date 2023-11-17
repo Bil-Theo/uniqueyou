@@ -68,7 +68,7 @@
 	                <h5 class="card-title" style="display: flex; flex-direction: row; justify-content: center"><%= rs.getString("libelle") %></h5>
 	                <p class="card-text" style="display: flex; flex-direction: row; justify-content: center"><%= rs.getInt("prix") %></p>
 	                <p class="card-text" style="display: flex; flex-direction: row; justify-content: center"><%= rs.getString("description") %></p>
-	                <a href="j_achat_item?<%= rs.getInt("_id") %>" class="btn btn-primary" style='background-color: #08D140; border-color: #08D140; margin-left: 35%;'>Ajouter</a>	
+	                <a href="j_achat_item?id_current=<%= rs.getInt("_id") %>" class="btn btn-primary" style='background-color: #08D140; border-color: #08D140; margin-left: 35%;'>Ajouter</a>	
 	            </div>
 	            <% } 
             	else{ %>
@@ -79,7 +79,7 @@
 	                	<p class="card-text" style=" margin-left: 15%;"><%= rs.getInt("prix_promo") %>$</p>
 	                </div>
 	                <p class="card-text" style="display: flex; flex-direction: row; justify-content: center"><%= rs.getString("description") %></p>
-	                <a href="j_achat_item?<%= rs.getInt("_id") %>" class="btn btn-primary" style='background-color: #08D140; border-color: #08D140; margin-left: 35%;'>Ajouter</a>	
+	                <a href="j_achat_item?id_current=<%= rs.getInt("_id") %>" class="btn btn-primary" style='background-color: #08D140; border-color: #08D140; margin-left: 35%;'>Ajouter</a>	
 	            </div>
 	           <%} %>
         	</div>

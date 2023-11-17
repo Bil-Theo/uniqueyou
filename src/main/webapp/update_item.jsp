@@ -86,7 +86,7 @@
 					<label class='label-m' style='font-weight: bold; font-size: 100%;'>Description du produit </label>
 					<textarea value='<%= rs.getString("description") %>' placeholder='Ex: Ce produit est....' style='border-radius: 4%; border: solid black 2px; border-color: #7C6F6F; background-color: #FEF9F9' type='text' class='entre-sign' name="j_description" rows="10" cols="50"></textarea>
 				</div>
-				<button type="submit" class="btn btn-success" style='font-size: 20px; margin-left: 40%; margin-top: 15%;  border-color: #08D140; background-color: #08D140;'>Ajouter</button>
+				<button type="submit" class="btn btn-success" style='font-size: 20px; margin-left: 40%; margin-top: 15%;  border-color: #10D4FF; background-color: #10D4FF;'>Modifier</button>
 			</form>
 		</div>
 		<% }		
