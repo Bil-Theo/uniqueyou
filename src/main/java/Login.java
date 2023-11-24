@@ -58,7 +58,9 @@ public class Login extends HttpServlet {
 				
 				HttpSession session = request.getSession();
 				session.setAttribute("compte", compte);
+				if(compte.type != 4)
 				response.sendRedirect("acceuil.jsp");
+				else response.sendRedirect("admin.jsp");
 				
 				/*if(compte.type==1) {
 					response.sendRedirect("Client_Vendeur/acceuil.jsp");

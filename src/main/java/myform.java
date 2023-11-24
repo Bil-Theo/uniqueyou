@@ -81,15 +81,15 @@ public class myform extends HttpServlet {
 					RequestDispatcher rd = request.getRequestDispatcher("acceuil.jsp");
 					request.setAttribute("succes", "Votre panier a été valider avec succes.");
 					rd.forward(request, response);
-					PreparedStatement st  =  conn.prepareStatement("SELECT DISTINCT  C2.email as mail_v, C2.nom as nom_v,now() as dte, C1.nom as nom_cl, C1.email as mail_cl FROM panier P, item i, Compte C1, compte C2 WHERE P.id_user = ? and P.id_item = I._id and I.id_user = C2._id and C2._id != C1._id group by C2._id; ");
-					PreparedStatement stm = conn.prepareStatement("SELECT distinct I._id, I.libelle, I.prix, I.promotion, I.prix_promo, I.id_user, I.type from panier P, item I where P.id_item = I._id AND P.id_user = ? ");
+					PreparedStatement st  =  conn.prepareStatement("SELECT DISTINCT C2.email as mail_v, C2.nom as nom_v,now() as dte FROM panier P, item i, compte C2 WHERE P.id_user = ? and P.id_item = I._id and I.id_user = C2._id group by C2.email; ");
+					PreparedStatement stm = conn.prepareStatement("SELECT distinct I._id, I.libelle, I.prix, I.promotion, I.id_user, I.prix_promo, I.id_user, I.type, count(P.id_item) as qte from panier P, item I where P.id_item = I._id AND P.id_user = ? GROUP by P.id_item ; ");
 					stm.setInt(1, user._id);
 					
 					ResultSet rr = stm.executeQuery();
 					
 					while(rr.next()) {
 						
-						PreparedStatement ss = conn.prepareStatement("INSERT INTO commande VALUES(null ,? , ?, ?, ?, ?, ?, ?, ?, ?)");
+						PreparedStatement ss = conn.prepareStatement("INSERT INTO commande VALUES(null ,? , ?, ?, ?, ?, ?, ?, ?, ?, 'En-cours', now(), null, ?, ?);");
 
 						ss.setInt(1, Integer.parseInt(rr.getString("I._id")));
 						ss.setString(2, rr.getString("I.libelle"));
@@ -100,6 +100,8 @@ public class myform extends HttpServlet {
 						ss.setString(7, "");
 						ss.setInt(8, Integer.parseInt(rr.getString("I.id_user")));
 						ss.setInt(9, Integer.parseInt(rr.getString("I.type")));
+						ss.setInt(10, user._id);
+						ss.setInt(11, Integer.parseInt(rr.getString("qte")));
 						
 						ss.executeUpdate();
 					}
@@ -112,7 +114,7 @@ public class myform extends HttpServlet {
 								+ "\r\n"
 								+ "Bonne nouvelle ! \r\n"
 								+ "\r\n"
-								+ "Une commande a été faite le " + r.getString("dte") + " par " + r.getString("nom_cl") +".\r\n"
+								+ "Une commande a été faite le " + r.getString("dte") + " par " + user.nom +".\r\n"
 								+ "\r\n"
 								+ "Merci de confirmer ou réjeter les articles commandés. \r\n"
 								+ "\r\n"

@@ -32,7 +32,7 @@
 		    "Tchad",
 		    "Comores",
 		    "République du Congo",
-		    "République démocratique du Congo",
+		    "RDC",
 		    "Djibouti",
 		    "Égypte",
 		    "Érythrée",
