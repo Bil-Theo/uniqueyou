@@ -65,10 +65,10 @@ public class add_item extends HttpServlet {
 	        String[] img = fileName.split("\\.");
 	        fileName = img[0]+"_"+Long.toString(tms)+"."+img[1];
 	        
-	        String uploadFolder = "D:/c/JEE/eclipse/work-space/uniqueyou/src/main/webapp/assets/images/database";
+	        String uploadFolder = getServletContext().getRealPath("") + File.separator + "assets" + File.separator + "images" + File.separator + "database";
 	        String savePath = uploadFolder + File.separator + fileName;
 	        
-	        //System.out.print(savePath);
+	       // System.out.print(savePath);
 
 	        
 

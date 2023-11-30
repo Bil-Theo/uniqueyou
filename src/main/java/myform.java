@@ -122,11 +122,11 @@ public class myform extends HttpServlet {
 								+ "L'équipe unique u";
 						String subject = "NE PAS REPONDRE - COMMANDE RECU UNIQUEYOU";
 						//String received = r.getString("mail_v");
-						String received = "impressioninh@gmail.com";
+						String received = "salehindev@gmail.com";
 						
 						//
 						//System.out.println(body);	
-						EnvoyerEmail.envoyer(received, subject, body);
+						//EnvoyerEmail.envoyer(received, subject, body);
 					}
 				}
 			} catch (ClassNotFoundException e) {

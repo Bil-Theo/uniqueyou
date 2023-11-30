@@ -54,7 +54,7 @@ public class delete_account extends HttpServlet {
 		}
 		else { 
 				if(request.getParameter("id_current") != null && user.type==4)  _id = Integer.parseInt((String) request.getParameter("id_current"));
-				else if(request.getParameter("id_current") == null && user.type!=4) {_id = user._id;}
+				else if(request.getParameter("id_current") != null && user.type!=4) {_id = user._id;}
 				else { rd.forward(request, response);}
 			
 			//System.out.print(date);
@@ -66,8 +66,17 @@ public class delete_account extends HttpServlet {
 				stmt.setInt(1, _id);
 				
 				stmt.executeUpdate();
-				RequestDispatcher r = request.getRequestDispatcher("compte.jsp");
-				request.setAttribute("succes", "Suppression reussie avec succes.");
+				
+				RequestDispatcher r;
+				
+				if(user.type==4) {
+					 r = request.getRequestDispatcher("compte.jsp");
+						request.setAttribute("succes", "Suppression reussie avec succes.");
+				}
+				else {
+					 r = request.getRequestDispatcher("index.jsp");
+						request.setAttribute("message", "Vous avez supprimé votre compte avec succes.");
+				}
 				r.forward(request, response);
 				
 			} catch (ClassNotFoundException e) {

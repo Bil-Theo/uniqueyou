@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Ven 17 Novembre 2023 à 17:14
+-- Généré le :  Ven 24 Novembre 2023 à 20:11
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.18
 
@@ -36,17 +36,25 @@ CREATE TABLE `commande` (
   `image` varchar(200) NOT NULL,
   `description` varchar(300) DEFAULT NULL,
   `id_user` int(11) NOT NULL,
-  `type` int(11) NOT NULL
+  `type` int(11) NOT NULL,
+  `statut` varchar(15) DEFAULT 'En-cours',
+  `date_cmd` datetime DEFAULT CURRENT_TIMESTAMP,
+  `decision` int(11) DEFAULT NULL,
+  `id_client` int(11) DEFAULT NULL,
+  `quantite` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `commande`
 --
 
-INSERT INTO `commande` (`id`, `_id`, `libelle`, `prix`, `prix_promo`, `promotion`, `image`, `description`, `id_user`, `type`) VALUES
-(7, 4, 'Jus ananas', 100, 0, 0, './assets/images/database/', '', 15, 2),
-(9, 4, 'Jus ananas', 100, 0, 0, './assets/images/database/', '', 15, 2),
-(26, 1, 'bama mayonaise', 110, 0, 0, './assets/images/database/', '', 14, 2);
+INSERT INTO `commande` (`id`, `_id`, `libelle`, `prix`, `prix_promo`, `promotion`, `image`, `description`, `id_user`, `type`, `statut`, `date_cmd`, `decision`, `id_client`, `quantite`) VALUES
+(36, 11, 'Lait Beaute', 20, 15, 0, './assets/images/database/', '', 19, 3, 'Finale', '2023-11-24 15:56:49', 1, 14, 2),
+(40, 1, 'bama mayo', 110, 0, 0, './assets/images/database/', '', 14, 2, 'Finale', '2023-11-24 19:43:17', 0, 19, 1),
+(41, 3, 'gazouz', 10, 0, 0, './assets/images/database/', '', 14, 2, 'Finale', '2023-11-24 19:43:17', 1, 19, 1),
+(42, 4, 'Jus ananas', 100, 0, 0, './assets/images/database/', '', 15, 2, 'En-cours', '2023-11-24 19:43:17', NULL, 19, 1),
+(43, 7, 'Maltina', 10, 0, 0, './assets/images/database/', '', 15, 2, 'En-cours', '2023-11-24 19:43:17', NULL, 19, 1),
+(44, 8, 'Las', 15, 0, 0, './assets/images/database/', '', 15, 2, 'En-cours', '2023-11-24 19:43:17', NULL, 19, 1);
 
 -- --------------------------------------------------------
 
@@ -74,19 +82,14 @@ INSERT INTO `compte` (`_id`, `nom`, `telephone`, `email`, `codePostal`, `ville`,
 (1, 'ABC Inc.', '123-456-7890', 'abc@example.com', 12345, 'New York', 'USA', 1, '1234'),
 (2, 'XYZ Company', '987-654-3210', 'xyz@example.com', 54321, 'Los Angeles', 'USA', 3, '1234'),
 (3, 'Smith & Sons', '555-123-4567', 'smith@example.com', 67890, 'Chicago', 'USA', 1, '1234'),
-(4, 'GreenTech Ltd.', '333-999-8888', 'greentech@example.com', 98765, 'San Francisco', 'USA', 1, '1234'),
-(5, 'Brown Industries', '111-777-2222', 'brown@example.com', 56789, 'Houston', 'USA', 3, '1234'),
 (6, 'Lee Tang', 'lee@example.com', '222-888-4444', 45678, 'Miami', 'USA', 1, '1234'),
-(7, 'Turner Corp.', '777-555-1111', 'turner@example.com', 76543, 'Boston', 'USA', 3, '1234'),
-(8, 'Davis Holdings', '666-222-9999', 'davis@example.com', 34567, 'Seattle', 'USA', 2, '1234'),
-(9, 'WhiteTech Solutions', '444-666-3333', 'whitetech@example.com', 23456, 'Denver', 'USA', 2, '1234'),
-(10, 'Wilson Group', '888-333-7777', 'wilson@example.com', 65432, 'Austin', 'USA', 2, '1234'),
 (14, 'Guedila', '00213779063957', 'guedila@example.com', 35000, 'Boumerdes', 'Algerie', 2, '1234'),
 (15, 'saleh mahamat', 'saleh@example.com', '123456789', 23456, 'Boumerdes', 'Algerie', 2, '1234'),
 (16, 'BILT', '2345678', 'biltheoitoua@gmail.com', 35000, 'Boumerdes', 'Algerie', 3, '1234'),
 (17, 'SQLEH', '3456789', 'salehindev@example.com', 35000, 'BoumerdÃ©s', 'AlgÃ©rie', 1, '1234'),
 (18, 'SQLEH', '23456789', 'salehindev@df.com', 3, 'Boudouaou', 'AlgÃ©rie', 2, '1234'),
-(19, 'saleh dans le dev', '234567', 'salehindev@dIf.com', 35000, 'Boumerdes', 'Angola', 3, '1234');
+(19, 'saleh dans le dev', '234567', 'salehindev@dIf.com', 35000, 'Boumerdes', 'Angola', 3, '1234'),
+(20, 'unique you', '456734563', 'admin@uniqueyou.com', 35000, 'Boumerdes', 'ALGERIE', 4, '1234');
 
 -- --------------------------------------------------------
 
@@ -140,7 +143,19 @@ INSERT INTO `formulaire` (`_id`, `telephone`, `adresse`, `ville`, `pays`, `jour`
 (44, '+213779063957', '35000 Algerie Boumerdes residence universitaire Bo', 'Boumerdes', 'Angola', '2023-11-17', 19),
 (45, '023456789', '35000 Algerie Boumerdes residence universitaire Bo', 'Boudouaou', 'Madagascar', '2023-11-17', 19),
 (46, '+213779063957', '35000 Algerie Boumerdes residence universitaire Bo', 'Boumerdes', 'Lesotho', '2023-11-17', 19),
-(47, '023456789', '35000 Algerie Boumerdes residence universitaire Bo', 'Boudouaou', 'Djibouti', '2023-11-24', 19);
+(47, '023456789', '35000 Algerie Boumerdes residence universitaire Bo', 'Boudouaou', 'Djibouti', '2023-11-24', 19),
+(48, '+213779063957', '35000 Algerie Boumerdes residence universitaire Bo', 'Boumerdes', 'Angola', '2023-12-03', 19),
+(49, '+213779063957', '35000 Algerie Boumerdes residence universitaire Bo', 'Boumerdes', 'Afrique du Sud', '2023-11-25', 19),
+(50, '+213779063957', '35000 Algerie Boumerdes residence universitaire Bo', 'Boumerdes', 'BÃ©nin', '2023-11-23', 19),
+(51, '+213779063957', '35000 Algerie Boumerdes residence universitaire Bo', 'Boumerdes', 'AlgÃ©rie', '2023-11-23', 19),
+(52, '+213779063957', '35000 Algerie Boumerdes residence universitaire Bo', 'Boumerdes', 'RDC', '2023-11-24', 19),
+(53, '+213779063957', '35000 Algerie Boumerdes residence universitaire Bo', 'Boumerdes', 'Angola', '2023-11-23', 19),
+(54, '+213779063957', '35000 AlgÃ©rie Boumerdes rÃ©sidence universitaire Bouhri Boulem ex inh', 'BoumerdÃ©s', 'Gabon', '2023-11-24', 14),
+(55, '+213779063957', '35000 AlgÃ©rie Boumerdes rÃ©sidence universitaire Bouhri Boulem ex inh', 'BoumerdÃ©s', 'Gabon', '2023-11-24', 14),
+(56, '+213779063957', '35000 AlgÃ©rie Boumerdes rÃ©sidence universitaire Bouhri Boulem ex inh', 'BoumerdÃ©s', 'Gabon', '2023-11-24', 14),
+(57, '+213779063957', '35000 AlgÃ©rie Boumerdes rÃ©sidence universitaire Bouhri Boulem ex inh', 'BoumerdÃ©s', 'Gabon', '2023-11-24', 14),
+(58, '+213779063957', '35000 AlgÃ©rie Boumerdes rÃ©sidence universitaire Bouhri Boulem ex inh', 'BoumerdÃ©s', 'Comores', '2023-11-24', 14),
+(59, '+213779063957', '35000 AlgÃ©rie Boumerdes rÃ©sidence universitaire Bouhri Boulem ex inh', 'BoumerdÃ©s', 'Gabon', '2023-11-24', 19);
 
 -- --------------------------------------------------------
 
@@ -190,16 +205,12 @@ CREATE TABLE `panier` (
 --
 
 INSERT INTO `panier` (`_id`, `id_item`, `id_user`) VALUES
-(6, 10, 18),
-(7, 10, 18),
-(8, 10, 18),
-(9, 10, 18),
-(10, 2, 19),
-(12, 2, 19),
-(23, 12, 6),
-(24, 12, 6),
-(25, 12, 6),
-(44, 1, 19);
+(46, 8, 19),
+(47, 7, 19),
+(49, 8, 15),
+(50, 8, 15),
+(51, 7, 15),
+(59, 4, 19);
 
 --
 -- Index pour les tables exportées
@@ -222,20 +233,21 @@ ALTER TABLE `compte`
 --
 ALTER TABLE `formulaire`
   ADD PRIMARY KEY (`_id`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `mescascades` (`id_user`);
 
 --
 -- Index pour la table `item`
 --
 ALTER TABLE `item`
   ADD PRIMARY KEY (`_id`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `mescascades_item` (`id_user`);
 
 --
 -- Index pour la table `panier`
 --
 ALTER TABLE `panier`
-  ADD PRIMARY KEY (`_id`);
+  ADD PRIMARY KEY (`_id`),
+  ADD KEY `mescascades_panier` (`id_user`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -245,17 +257,17 @@ ALTER TABLE `panier`
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT pour la table `compte`
 --
 ALTER TABLE `compte`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT pour la table `formulaire`
 --
 ALTER TABLE `formulaire`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- AUTO_INCREMENT pour la table `item`
 --
@@ -265,7 +277,7 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT pour la table `panier`
 --
 ALTER TABLE `panier`
-  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- Contraintes pour les tables exportées
 --
@@ -274,13 +286,21 @@ ALTER TABLE `panier`
 -- Contraintes pour la table `formulaire`
 --
 ALTER TABLE `formulaire`
-  ADD CONSTRAINT `formulaire_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `compte` (`_id`);
+  ADD CONSTRAINT `formulaire_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `compte` (`_id`),
+  ADD CONSTRAINT `mescascades` FOREIGN KEY (`id_user`) REFERENCES `compte` (`_id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `item`
 --
 ALTER TABLE `item`
-  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `compte` (`_id`);
+  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `compte` (`_id`),
+  ADD CONSTRAINT `mescascades_item` FOREIGN KEY (`id_user`) REFERENCES `compte` (`_id`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `panier`
+--
+ALTER TABLE `panier`
+  ADD CONSTRAINT `mescascades_panier` FOREIGN KEY (`id_user`) REFERENCES `compte` (`_id`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

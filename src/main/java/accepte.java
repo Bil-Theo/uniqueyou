@@ -131,7 +131,7 @@ public class accepte extends HttpServlet {
 					
 					//
 					//System.out.println(body);	
-					EnvoyerEmail.envoyer(received, subject, body);
+					//EnvoyerEmail.envoyer(received, subject, body);
 				}
 				
 				PreparedStatement stmt  =  conn.prepareStatement(query);

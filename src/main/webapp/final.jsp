@@ -62,7 +62,7 @@
 	         String url = "jdbc:mysql://localhost:3306/uniqueyou";
 			 String user_name = "root";
 			 String mdps =  "root";
-			 String query = "SELECT C.id, C.libelle, C.statut, C.decision, C.quantite, C1.nom, C2.nom, C1.email, C2.email, C1.pays, C2.pays, C1.telephone, C2.telephone from commande C, compte C1, compte C2 WHERE C1._id != C2._id AND C1._id = C.id_user AND C2._id = C.id_client AND statut ='Finale' group by C._id, C2._id, C1._id";
+			 String query = "SELECT C.id, C.libelle, C.statut, C.decision, C.quantite, C1.nom, C2.nom, C1.email, C2.email, C1.pays, C2.pays, C1.telephone, C2.telephone from commande C, compte C1, compte C2 WHERE C1._id != C2._id AND C1._id = C.id_user AND C2._id = C.id_client AND statut ='Finale' group by C.id, C2._id, C1._id";
 	
 			 int i = 0, count = 0;
 			 

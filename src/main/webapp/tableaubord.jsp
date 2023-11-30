@@ -37,7 +37,7 @@
 	
 	<div class="container mt-4">
 	<a class="btn btn-primary" href="#" onclick="window.location.reload();" style="margin-Top: 2%; font-weight: bold;">Actualiser</a>
-	<a class="btn btn-primary" href="statistiques.jsp" style="margin-Top: 2%; font-weight: bold; margin-left: 80%;">Statitiques</a>
+	<a class="btn btn-primary" href="statistiques.jsp" style="margin-Top: 2%; font-weight: bold; margin-left: 75%;">Mes finalisations</a>
 	<h3 class="theme" style="margin-left: 43%; margin-top: 0%">Commandes</h3>
     <table class="table table-striped">
         <thead>
